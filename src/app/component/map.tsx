@@ -5,6 +5,9 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { FaLocationArrow } from "react-icons/fa";
+import EmergencyModel from "@/model/emergencyModel";
+import FirebaseService from "@/services/firebase.service";
+import { useSearchParams } from "next/navigation";
 
 // Fix for the default icon issue with Leaflet
 L.Icon.Default.mergeOptions({
@@ -18,38 +21,49 @@ const Map = () => {
   const [position, setPosition] = useState<[number, number]>([51.505, -0.09]);
   const mapRef = useRef<L.Map | null>(null);
 
+  const [emergency, setEmergency] = useState<EmergencyModel>();
+  const params = useSearchParams();
+  const id = params.get("id");
+
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          setPosition([latitude, longitude]);
-          if (mapRef.current) {
-            mapRef.current.setView([latitude, longitude], 13);
-          }
-        },
-        (error) => {
-          console.error(error);
-        },
-        { enableHighAccuracy: true }
-      );
-    }
+    const fetchData = async () => {
+      if (!id) {
+        return;
+      }
+      const data = await FirebaseService.getFirebase(id);
+      if (data) {
+        setEmergency(data);
+        setPosition([
+          parseFloat(data.latitude || "0"),
+          parseFloat(data.longitude || "0"),
+        ]);
+        if (mapRef.current) {
+          mapRef.current.setView(
+            [
+              parseFloat(data.latitude || "0"),
+              parseFloat(data.longitude || "0"),
+            ],
+            13
+          );
+        }
+      }
+    };
+
+    fetchData();
   }, []);
 
   const recenterToUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          setPosition([latitude, longitude]);
-          if (mapRef.current) {
-            mapRef.current.setView([latitude, longitude], 13);
-          }
-        },
-        (error) => {
-          console.error(error);
-        },
-        { enableHighAccuracy: true }
+    setPosition([
+      parseFloat(emergency?.latitude || "0"),
+      parseFloat(emergency?.longitude || "0"),
+    ]);
+    if (mapRef.current) {
+      mapRef.current.setView(
+        [
+          parseFloat(emergency?.latitude || "0"),
+          parseFloat(emergency?.longitude || "0"),
+        ],
+        13
       );
     }
   };
