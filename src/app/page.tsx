@@ -3,12 +3,18 @@
 // pages/index.tsx
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 
 const Map = dynamic(() => import("../app/component/map"), { ssr: false });
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setIsMobile(window.innerWidth < 768);
+    });
+  }, [isMobile]);
 
   return (
     <div className={`${isMobile ? "h-[1500px]" : "h-screen"}`}>
@@ -65,8 +71,8 @@ const Home = () => {
               className={`overflow-hidden flex absolute ${
                 isMobile
                   ? "w-[330px] max-h-[300px] ml-10 mt-[60rem]"
-                  : "w-[1000px] max-h-[800px]"
-              }  top-32 right-10 border border-blue-500`}
+                  : "w-[1000px] max-h-[800px] right-10"
+              } top-32 border border-blue-500`}
             >
               <Map />
             </div>
