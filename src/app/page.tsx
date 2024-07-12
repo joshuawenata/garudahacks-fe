@@ -1,23 +1,20 @@
 "use client";
 
-// pages/index.tsx
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { use, useEffect, useState } from "react"; // Correct import statement
+import { useEffect, useState } from "react";
 import FirebaseService from "@/services/firebase.service";
 import EmergencyModel from "@/model/emergencyModel";
-import { useSearchParams } from "next/navigation";
 
 const Map = dynamic(() => import("../app/component/map"), { ssr: false });
 
 const Home = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(false); // Initialize with false or window.innerWidth < 768
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const [emergency, setEmergency] = useState<EmergencyModel>();
-  const params = useSearchParams();
-  const id = params.get("id");
 
   useEffect(() => {
     const fetchData = async () => {
+      const id = await getIdFromSearchParams();
       if (!id) {
         return;
       }
@@ -46,6 +43,12 @@ const Home = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []); // Empty dependency array means this effect runs once
+
+  const getIdFromSearchParams = (): string => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id") ?? "001";
+    return id;
+  };
 
   return (
     <div className={`${isMobile ? "h-[1500px]" : "h-screen"}`}>

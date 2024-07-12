@@ -20,32 +20,42 @@ L.Icon.Default.mergeOptions({
 const Map = () => {
   const [position, setPosition] = useState<[number, number]>([51.505, -0.09]);
   const mapRef = useRef<L.Map | null>(null);
+  const [emergency, setEmergency] = useState<EmergencyModel | undefined>(
+    undefined
+  );
 
-  const [emergency, setEmergency] = useState<EmergencyModel>();
-  const params = useSearchParams();
-  const id = params.get("id");
+  const getIdFromSearchParams = (): string => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id") ?? "001";
+    return id;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
+      const id = await getIdFromSearchParams();
       if (!id) {
         return;
       }
-      const data = await FirebaseService.getFirebase(id);
-      if (data) {
-        setEmergency(data);
-        setPosition([
-          parseFloat(data.latitude || "0"),
-          parseFloat(data.longitude || "0"),
-        ]);
-        if (mapRef.current) {
-          mapRef.current.setView(
-            [
-              parseFloat(data.latitude || "0"),
-              parseFloat(data.longitude || "0"),
-            ],
-            13
-          );
+      try {
+        const data = await FirebaseService.getFirebase(id);
+        if (data) {
+          setEmergency(data);
+          setPosition([
+            parseFloat(data.latitude || "0"),
+            parseFloat(data.longitude || "0"),
+          ]);
+          if (mapRef.current) {
+            mapRef.current.setView(
+              [
+                parseFloat(data.latitude || "0"),
+                parseFloat(data.longitude || "0"),
+              ],
+              13
+            );
+          }
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -53,18 +63,20 @@ const Map = () => {
   }, []);
 
   const recenterToUserLocation = () => {
-    setPosition([
-      parseFloat(emergency?.latitude || "0"),
-      parseFloat(emergency?.longitude || "0"),
-    ]);
-    if (mapRef.current) {
-      mapRef.current.setView(
-        [
-          parseFloat(emergency?.latitude || "0"),
-          parseFloat(emergency?.longitude || "0"),
-        ],
-        13
-      );
+    if (emergency) {
+      setPosition([
+        parseFloat(emergency.latitude || "0"),
+        parseFloat(emergency.longitude || "0"),
+      ]);
+      if (mapRef.current) {
+        mapRef.current.setView(
+          [
+            parseFloat(emergency.latitude || "0"),
+            parseFloat(emergency.longitude || "0"),
+          ],
+          13
+        );
+      }
     }
   };
 
@@ -80,17 +92,21 @@ const Map = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={position}>
-          <Popup>
-            You are here: <br /> Latitude: {position[0]} <br /> Longitude:{" "}
-            {position[1]}
-          </Popup>
-        </Marker>
+        {emergency && (
+          <Marker position={position}>
+            <Popup>
+              You are here: <br />
+              Latitude: {position[0]} <br />
+              Longitude: {position[1]}
+            </Popup>
+          </Marker>
+        )}
       </MapContainer>
       <button
         style={{ position: "absolute", top: 10, right: 10, zIndex: 1000 }}
         onClick={recenterToUserLocation}
         className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full flex flex-row items-center justify-center"
+        disabled={!emergency}
       >
         <FaLocationArrow className="mr-2" />
         Re-Center
