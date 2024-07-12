@@ -113,7 +113,7 @@ const Home = () => {
             <div
               className={`overflow-hidden flex absolute ${
                 isMobile
-                  ? "w-[330px] max-h-[300px] ml-10 mt-[60rem]"
+                  ? "w-[330px] max-h-[300px] ml-8 mt-[60rem]"
                   : "w-[1000px] max-h-[800px] right-10"
               } top-32 border border-blue-500`}
             >
