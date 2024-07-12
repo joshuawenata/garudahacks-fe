@@ -67,7 +67,7 @@ const Home = () => {
             <p
               className={`text-left text-black ${isMobile ? "ml-8" : "ml-10"}`}
             >
-              https://
+              https://guardi-track.vercel.app/?id=001
             </p>
             <h1
               className={`text-2xl text-left py-10 text-black ${
@@ -93,13 +93,14 @@ const Home = () => {
                 isMobile ? "w-80 ml-8" : "w-96 ml-10"
               }`}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              I was walking down a quiet street when suddenly, a masked
+              individual approached me from behind. They grabbed my shoulder
+              forcefully, making me turn around. I felt a surge of fear as they
+              brandished a knife and demanded my wallet and phone. Panicking, I
+              tried to comply quickly, but my hands were shaking. As I handed
+              over my belongings, the assailant snatched them aggressively and
+              pushed me to the ground. Before I could react further, they ran
+              off into the darkness, leaving me shaken and terrified.
             </p>
           </div>
           <div>
