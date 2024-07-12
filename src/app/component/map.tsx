@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import { useState, useEffect, useRef } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { FaLocationArrow } from "react-icons/fa";
 
 // Fix for the default icon issue with Leaflet
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
 const Map = () => {
@@ -53,11 +55,11 @@ const Map = () => {
   };
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div style={{ height: "100vh", width: "100%" }}>
       <MapContainer
         center={position}
         zoom={13}
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: "100%", width: "100%" }}
         ref={mapRef}
       >
         <TileLayer
@@ -66,16 +68,18 @@ const Map = () => {
         />
         <Marker position={position}>
           <Popup>
-            You are here: <br /> Latitude: {position[0]} <br /> Longitude: {position[1]}
+            You are here: <br /> Latitude: {position[0]} <br /> Longitude:{" "}
+            {position[1]}
           </Popup>
         </Marker>
       </MapContainer>
       <button
-        style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}
+        style={{ position: "absolute", top: 10, right: 10, zIndex: 1000 }}
         onClick={recenterToUserLocation}
-        className='bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full'
+        className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full flex flex-row items-center justify-center"
       >
-        Re-center to My Location
+        <FaLocationArrow className="mr-2" />
+        Re-Center
       </button>
     </div>
   );

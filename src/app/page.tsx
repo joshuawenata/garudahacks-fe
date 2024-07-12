@@ -3,18 +3,29 @@
 // pages/index.tsx
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // Correct import statement
 
 const Map = dynamic(() => import("../app/component/map"), { ssr: false });
 
 const Home = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState<boolean>(false); // Initialize with false or window.innerWidth < 768
 
   useEffect(() => {
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
-    });
-  }, [isMobile]);
+    };
+
+    // Set initial state
+    setIsMobile(window.innerWidth < 768);
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array means this effect runs once
 
   return (
     <div className={`${isMobile ? "h-[1500px]" : "h-screen"}`}>
