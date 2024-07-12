@@ -55,7 +55,7 @@ const Home = () => {
             <p
               className={`text-left text-black ${isMobile ? "ml-8" : "ml-10"}`}
             >
-              Mon, 20/0103, 23:11
+              Mon, 20/01/2024, 23:11
             </p>
             <h1
               className={`text-2xl text-left py-10 text-black ${
