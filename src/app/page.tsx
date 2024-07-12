@@ -38,27 +38,59 @@ const Home = () => {
       <main className="bg-white h-full w-full">
         <div className={`flex ${isMobile ? "flex-col" : "flex-row"}`}>
           <div>
-            <h1 className="text-4xl text-left py-10 text-black ml-10 font-bold">
+            <h1
+              className={`text-4xl text-left py-10 text-black ${
+                isMobile ? "ml-8" : "ml-10"
+              } font-bold`}
+            >
               Alert Triggered by Jessie
             </h1>
-            <h1 className="text-2xl text-left py-10 text-black ml-10 font-bold">
+            <h1
+              className={`text-2xl text-left py-10 text-black ${
+                isMobile ? "ml-8" : "ml-10"
+              } font-bold`}
+            >
               Date Time
             </h1>
-            <p className="text-left text-black ml-10">Mon, 20/0103, 23:11</p>
-            <h1 className="text-2xl text-left py-10 text-black ml-10 font-bold">
+            <p
+              className={`text-left text-black ${isMobile ? "ml-8" : "ml-10"}`}
+            >
+              Mon, 20/0103, 23:11
+            </p>
+            <h1
+              className={`text-2xl text-left py-10 text-black ${
+                isMobile ? "ml-8" : "ml-10"
+              } font-bold`}
+            >
               Start Location
             </h1>
-            <p className="text-left text-black ml-10">https://</p>
-            <h1 className="text-2xl text-left py-10 text-black ml-10 font-bold">
+            <p
+              className={`text-left text-black ${isMobile ? "ml-8" : "ml-10"}`}
+            >
+              https://
+            </p>
+            <h1
+              className={`text-2xl text-left py-10 text-black ${
+                isMobile ? "ml-8" : "ml-10"
+              } font-bold`}
+            >
               Emergency Event
             </h1>
-            <p className="text-left text-black ml-10">Criminality</p>
-            <h1 className="text-2xl text-left py-10 text-black ml-10 font-bold">
+            <p
+              className={`text-left text-black ${isMobile ? "ml-8" : "ml-10"}`}
+            >
+              Criminality
+            </p>
+            <h1
+              className={`text-2xl text-left py-10 text-black ${
+                isMobile ? "ml-8" : "ml-10"
+              } font-bold`}
+            >
               Description
             </h1>
             <p
-              className={`text-left text-black ml-10 ${
-                isMobile ? "w-80" : "w-96"
+              className={`text-left text-black ${
+                isMobile ? "w-80 ml-8" : "w-96 ml-10"
               }`}
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
@@ -73,7 +105,7 @@ const Home = () => {
           <div>
             <h1
               className={`text-2xl ${
-                isMobile ? "text-left ml-10" : "text-right ml-[13rem] mt-10"
+                isMobile ? "text-left ml-8" : "text-right ml-[13rem] mt-10"
               } py-10 text-black font-bold`}
             >
               Current Location
